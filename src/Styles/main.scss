@@ -1,0 +1,160 @@
+//$modal-background-background-color: #141414 !important;
+$modal-card-head-background-color: #141414 !important;
+$modal-card-head-border-bottom: #141414 !important;
+$modal-card-foot-border-top: #141414 !important;
+$modal-card-body-background-color: #141414 !important;
+$modal-content-width: 100% !important;
+
+// Bulma
+@import "~bulma";
+// Bulma - Carousel
+@import "~bulma-carousel";
+
+
+// Main Styles
+html,
+body {
+  background: #141414 !important;
+}
+#heroSection {
+  position: relative;
+  z-index: 0;
+
+  &.modald {
+    z-index: 2 !important;
+  }
+}
+#belowHeroSection {
+  position: relative;
+  margin-top: -270px;
+}
+
+.list-heading {
+  margin-top: 20px;
+  margin-bottom: -38px;
+  font-size: 1.14rem;
+  letter-spacing: 1px;
+
+  &.special {
+    margin-top: 28px;
+  }
+}
+
+section.carousel {
+  margin-bottom: -50px;
+}
+
+.heroMovDetails {
+  color: white;
+  width: 500px;
+  left: -330px;
+  top: -110px;
+  position: relative;
+
+  & .movHeroTitle {
+    font-size: 3.6rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  & .movHeroSyn {
+    font-size: 1.2rem;
+  }
+}
+
+#synopsis {
+  transition: all 1s ease-in;
+  display: block;
+}
+#synopsisBot2Wrap {
+  margin-top: 6px;
+  display: flex;
+}
+#synopsisBot1,
+#synopsisBot2 {
+  display: flex;
+}
+#synopsisBot2 {
+  margin-left: 4px;
+  margin-top: -4px;
+}
+
+.modal-card {
+  height: 100vh !important;
+}
+
+// Overrides for BrainHubCarousel
+.BrainhubCarousel {
+  overflow: unset !important;
+
+  &:hover .BrainhubCarousel__arrows {
+    background-color: rgba(52, 41, 94, 0.61);
+  }
+
+  & .BrainhubCarousel__arrows {
+    background-color: #04040405;
+    z-index: 9999;
+    border-radius: 60%;
+
+    & span {
+      border-color: #ffffff5e;
+    }
+  }
+
+  & .BrainhubCarousel__arrows.BrainhubCarousel__arrowRight {
+    position: absolute;
+    right: 0px;
+  }
+
+  &.BrainhubCarousel .BrainhubCarousel__trackContainer {
+    overflow: unset !important;
+  }
+
+  & .BrainhubCarousel__arrows:hover:enabled {
+    background-color: #55439a52;
+  }
+
+  & .BrainhubCarousel__trackContainer ul li {
+    border-left: 1.8px solid #ffc0cb00;
+    border-right: 1.8px solid #ffc0cb00;
+  }
+
+  & .BrainhubCarouselItem {
+    transition: all .1s ease-in;
+    transition-delay: .7s;
+    position: relative;
+    padding: 0px;
+    top: 0px;
+
+    & img {
+      padding: 3px;
+    }
+  }
+
+  & .BrainhubCarouselItem.hovered {
+    transform: scale(1);
+    width: 16vh !important;
+    max-width: 100vh !important;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-left: 5px;
+    top: 0px;
+    padding: 0px;
+    box-shadow: 0px 32px 30px 10px #222425;
+    border: 0.6px solid #141414;
+    background: #ececec;
+  }
+
+  & .BrainhubCarouselItem.clicked {
+    transform: scale(1);
+    width: 16vh !important;
+    max-width: 100vh !important;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-left: 5px;
+    top: 0px;
+    padding: 0px;
+    box-shadow: 0px 32px 30px 10px #222425;
+    border: 0.6px solid #141414;
+    background: #ececec;
+  }
+}
