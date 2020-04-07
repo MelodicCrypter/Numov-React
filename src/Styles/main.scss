@@ -1,4 +1,4 @@
-//$modal-background-background-color: #141414 !important;
+// Bulma: Modal Defaults
 $modal-card-head-background-color: #141414 !important;
 $modal-card-head-border-bottom: #141414 !important;
 $modal-card-foot-border-top: #141414 !important;
@@ -27,6 +27,12 @@ body {
 #belowHeroSection {
   position: relative;
   margin-top: -270px;
+
+  &.mobile {
+    margin-top: -170px;
+    padding-left: 18px;
+    padding-right: 8px;
+  }
 }
 
 .list-heading {
@@ -45,11 +51,15 @@ section.carousel {
 }
 
 .heroMovDetails {
-  color: white;
+  color: #eeeeee;
   width: 500px;
-  left: -330px;
-  top: -110px;
+  margin-top: -170px;
   position: relative;
+  left: 0px;
+
+  &.notMobTab {
+    margin-left: -490px;
+  }
 
   & .movHeroTitle {
     font-size: 3.6rem;
@@ -58,12 +68,20 @@ section.carousel {
   }
   & .movHeroSyn {
     font-size: 1.2rem;
+    line-height: 23px;
+  }
+  & button.notMobTab {
+    left: -200px;
   }
 }
 
 #synopsis {
   transition: all 1s ease-in;
   display: block;
+
+  &.prevOn {
+    background: transparent !important;
+  }
 }
 #synopsisBot2Wrap {
   margin-top: 6px;
@@ -78,13 +96,43 @@ section.carousel {
   margin-top: -4px;
 }
 
-.modal-card {
-  height: 100vh !important;
+.modal {
+  background: #654ea3;
+  background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
+  background: linear-gradient(to right, #eaafc8, #654ea3);
+
+  & .modal-card {
+    height: 100vh !important;
+  }
+
+  & .modal-card-head,
+  & .modal-card-body,
+  & .modal-card-foot,
+  & .modal-background {
+    background: #654ea3;
+    background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
+    background: linear-gradient(to right, #eaafc8, #654ea3);
+  }
+
+  & .modal-card-head {
+    padding: unset;
+  }
+
+  & .delete, .modal-close {
+    margin-right: 100px;
+  }
 }
+
+// Change background of Trailer when 'preview'
+.prev-trailer {
+  background: white;
+  border: 8px solid white;
+  border-radius: 4px;
+}
+
 
 // Overrides for BrainHubCarousel
 .BrainhubCarousel {
-  overflow: unset !important;
 
   &:hover .BrainhubCarousel__arrows {
     background-color: rgba(52, 41, 94, 0.61);

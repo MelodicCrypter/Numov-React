@@ -35,21 +35,22 @@ const MoviePreview: React.FC<Props> = ({ active, clipped }: Props): React.ReactE
     };
 
     return (
-        <div className={`modal ${isActive && 'is-active'} ${isClipped && 'is-clipped'}`}>
-            <div className="modal-background"></div>
-            <div className="modal-card">
-                <header className="modal-card-head">
-                    <p className="modal-card-title"></p>
-                    <button onClick={handleClose} className="delete" aria-label="close"></button>
-                </header>
-                <section className="modal-card-body">
-                    {dataStore.identifierWrapper === 'preview' && (
-                        <Suspense fallback={<Spinner />}>
-                            <MovieSynopsis />
-                        </Suspense>
-                    )}
-                </section>
-                <footer className="modal-card-foot"></footer>
+        <div className={`container ${isClipped && 'is-clipped'}`}>
+            <div className={`modal ${isActive && 'is-active'}`}>
+                <div className="modal-background"></div>
+                <div className="modal-card">
+                    <header className="modal-card-head">
+                        <p className="modal-card-title"></p>
+                        <button onClick={handleClose} className="delete" aria-label="close"></button>
+                    </header>
+                    <section className="modal-card-body">
+                        {dataStore.identifierWrapper === 'preview' && (
+                            <Suspense fallback={<Spinner />}>
+                                <MovieSynopsis />
+                            </Suspense>
+                        )}
+                    </section>
+                </div>
             </div>
         </div>
     );

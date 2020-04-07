@@ -40,14 +40,37 @@ const SynopsisText = styled.p`
     margin-top: 10px;
 `;
 
+const PrevSynopsisText = styled.p`
+    font-size: 1.1rem;
+    color: white;
+    font-weight: 200;
+    font-family: Nunito;
+    margin-top: 10px;
+`;
+
 const Para = styled.p`
     font-size: 0.8rem;
     color: #ababab;
 `;
 
+const PrevPara = styled.p`
+    font-size: 0.8rem;
+    color: white;
+`;
+
 const Bibo = styled.span`
     font-size: 0.8rem;
     color: #dfdfdf;
+`;
+
+const PrevBibo = styled.span`
+    font-size: 0.8rem;
+    color: #826969;
+    font-weight: 300;
+    background: #ffffff69;
+    border-radius: 2px;
+    padding-left: 4px;
+    margin-left: 0px;
 `;
 
 // <MovieSynopsis /> Functional Component
@@ -149,59 +172,139 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
 
     return (
         <>
-            <SynopsisWrapper id="synopsis" ref={synopRef} className="">
+            <SynopsisWrapper id="synopsis" ref={synopRef} className={`${identifierWrapper === 'preview' && 'prevOn'}`}>
                 <div className="container">
-                    <div className="columns is-desktop">
-                        <div className="column auto">
-                            {Object.keys(movInfo).length !== 0 && (
+                    <div className={`columns ${identifierWrapper !== 'preview' && 'is-desktop'}`}>
+                        {identifierWrapper !== 'preview' && (
+                            <div className="column auto">
+                                {Object.keys(movInfo).length !== 0 && (
+                                    <>
+                                        <Title>{movInfo.title}</Title>
+                                        <SynopsisText>
+                                            {movInfo.synopsis.length > 400
+                                                ? `${movInfo.synopsis.substring(0, 400)} ...`
+                                                : movInfo.synopsis}
+                                        </SynopsisText>
+
+                                        <br />
+
+                                        <ul id="synopsisBot1">
+                                            <li>
+                                                <Para>
+                                                    Runtime: <Bibo> {movInfo.duration} &nbsp; </Bibo>
+                                                </Para>
+                                            </li>
+                                            <li>
+                                                <Para>
+                                                    Rating: <Bibo> {movInfo.rating} &nbsp; </Bibo>
+                                                </Para>
+                                            </li>
+                                            <li>
+                                                <Para>
+                                                    Year: <Bibo> {movInfo.year} &nbsp; </Bibo>
+                                                </Para>
+                                            </li>
+                                            <li>
+                                                {movInfo.seasons !== '' && (
+                                                    <Para>
+                                                        Seasons: <Bibo> {movInfo.seasons} &nbsp; </Bibo>
+                                                    </Para>
+                                                )}
+                                            </li>
+                                            <Para>
+                                                Status: <Bibo> {movInfo.status} &nbsp; </Bibo>
+                                            </Para>
+                                        </ul>
+
+                                        <span id="synopsisBot2Wrap">
+                                            <Para>Genre: </Para>{' '}
+                                            <ul id="synopsisBot2">
+                                                {movInfo.genres !== undefined ? (
+                                                    movInfo.genres.map(g => {
+                                                        return (
+                                                            <li key={g.id}>
+                                                                <Bibo>{g.name}, &nbsp; </Bibo>
+                                                            </li>
+                                                        );
+                                                    })
+                                                ) : (
+                                                    <></>
+                                                )}
+                                            </ul>
+                                        </span>
+                                    </>
+                                )}
+                            </div>
+                        )}
+
+                        {identifierWrapper === 'preview' && <div className="column"> </div>}
+
+                        <div
+                            className={`column ${
+                                identifierWrapper === 'preview'
+                                    ? 'auto is-three-quarters-desktop'
+                                    : 'is-three-fifths-desktop is-full-mobile is-full-tablet'
+                            }`}
+                        >
+                            {movTrailerLinks !== undefined && movieID !== '' && (
+                                <Suspense fallback={<Spinner />}>
+                                    {movieID !== '' && (
+                                        <div className={`${identifierWrapper === 'preview' && 'prev-trailer'}`}>
+                                            <NumovPlayer
+                                                url={
+                                                    movieID !== ''
+                                                        ? `https://www.youtube.com/watch?v=${movTrailerLinks[0]}`
+                                                        : ''
+                                                }
+                                            />
+                                        </div>
+                                    )}
+                                </Suspense>
+                            )}
+                            {identifierWrapper === 'preview' && Object.keys(movInfo).length !== 0 && (
                                 <>
+                                    <br />
                                     <Title>{movInfo.title}</Title>
-                                    <SynopsisText>
-                                        {identifierWrapper === 'preview'
-                                            ? movInfo.synopsis
-                                            : movInfo.synopsis.length > 400
-                                            ? `${movInfo.synopsis.substring(0, 400)} ...`
-                                            : movInfo.synopsis}
-                                    </SynopsisText>
+                                    <PrevSynopsisText>{movInfo.synopsis}</PrevSynopsisText>
 
                                     <br />
 
-                                    <ul id="synopsisBot1">
+                                    <ul id="synopsisBot1" className="prev-btm-1">
                                         <li>
-                                            <Para>
-                                                Runtime: <Bibo> {movInfo.duration} &nbsp; </Bibo>
-                                            </Para>
+                                            <PrevPara>
+                                                Runtime: <PrevBibo> {movInfo.duration} &nbsp;</PrevBibo> &nbsp;
+                                            </PrevPara>
                                         </li>
                                         <li>
-                                            <Para>
-                                                Rating: <Bibo> {movInfo.rating} &nbsp; </Bibo>
-                                            </Para>
+                                            <PrevPara>
+                                                Rating: <PrevBibo> {movInfo.rating} &nbsp;</PrevBibo> &nbsp;
+                                            </PrevPara>
                                         </li>
                                         <li>
-                                            <Para>
-                                                Year: <Bibo> {movInfo.year} &nbsp; </Bibo>
-                                            </Para>
+                                            <PrevPara>
+                                                Year: <PrevBibo> {movInfo.year} &nbsp; &nbsp; </PrevBibo> &nbsp;
+                                            </PrevPara>
                                         </li>
                                         <li>
                                             {movInfo.seasons !== '' && (
-                                                <Para>
-                                                    Seasons: <Bibo> {movInfo.seasons} &nbsp; </Bibo>
-                                                </Para>
+                                                <PrevPara>
+                                                    Seasons: <PrevBibo> {movInfo.seasons} &nbsp;</PrevBibo> &nbsp;
+                                                </PrevPara>
                                             )}
                                         </li>
-                                        <Para>
-                                            Status: <Bibo> {movInfo.status} &nbsp; </Bibo>
-                                        </Para>
+                                        <PrevPara>
+                                            Status: <PrevBibo> {movInfo.status} &nbsp; </PrevBibo> &nbsp;
+                                        </PrevPara>
                                     </ul>
 
-                                    <span id="synopsisBot2Wrap">
-                                        <Para>Genre: </Para>{' '}
+                                    <span id="synopsisBot2Wrap" className="prev-btm-2">
+                                        <PrevPara>Genre: </PrevPara>{' '}
                                         <ul id="synopsisBot2">
                                             {movInfo.genres !== undefined ? (
                                                 movInfo.genres.map(g => {
                                                     return (
                                                         <li key={g.id}>
-                                                            <Bibo>{g.name}, &nbsp; </Bibo>
+                                                            <PrevBibo>{g.name}, &nbsp;</PrevBibo> &nbsp;
                                                         </li>
                                                     );
                                                 })
@@ -213,21 +316,8 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
                                 </>
                             )}
                         </div>
-                        <div className="column is-three-fifths-desktop is-full-mobile is-full-tablet">
-                            {movTrailerLinks !== undefined && movieID !== '' && (
-                                <Suspense fallback={<Spinner />}>
-                                    {movieID !== '' && (
-                                        <NumovPlayer
-                                            url={
-                                                movieID !== ''
-                                                    ? `https://www.youtube.com/watch?v=${movTrailerLinks[0]}`
-                                                    : ''
-                                            }
-                                        />
-                                    )}
-                                </Suspense>
-                            )}
-                        </div>
+
+                        {identifierWrapper === 'preview' && <div className="column"> </div>}
                     </div>
                 </div>
             </SynopsisWrapper>

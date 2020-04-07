@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Fade from 'react-reveal/Fade';
 import ErrorBoundary from 'react-error-boundary';
+import { useMediaQuery } from 'react-responsive';
 
 // Local Modules
 import AppContext from './AppContext';
@@ -38,6 +39,9 @@ const Main: React.FC = (): React.ReactElement => {
     });
     const [visible, setVisible] = useState<boolean>(false);
 
+    // Detect if custom-size is true
+    const isMobTab = useMediaQuery({ minWidth: 0, maxWidth: 1360 });
+
     useEffect(() => {
         setTimeout(() => {
             setVisible(true);
@@ -56,7 +60,7 @@ const Main: React.FC = (): React.ReactElement => {
                         </Fade>
                     </section>
 
-                    <section id="belowHeroSection" className="container is-fullhd">
+                    <section id="belowHeroSection" className={`container is-fullhd ${isMobTab && 'mobile'}`}>
                         <br />
 
                         <Fade delay={80}>

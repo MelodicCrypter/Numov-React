@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IoLogoYoutube } from 'react-icons/io';
+import { useMediaQuery } from 'react-responsive';
 
 // Local Modules
 import MoviePreview from './MoviePreview';
@@ -23,7 +24,7 @@ const OwnHeroWrapper = styled.div`
     /* Text styles */
     text-align: center;
     /* Background styles */
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(72, 47, 62, 0.3)), url(${props => props.img || ''});
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.63), rgba(72, 47, 62, 0.42)), url(${props => props.img || ''});
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -31,6 +32,8 @@ const OwnHeroWrapper = styled.div`
 
 // <MovieCarousel /> Functional Component
 const MovieHero: React.FC<Props> = ({ data }: Props): React.ReactElement => {
+    // Detect if custom-size is true
+    const isMobTab = useMediaQuery({ minWidth: 0, maxWidth: 1024 });
     // Component Setting
     const baseURL = 'https://image.tmdb.org/t/p/original/';
     // The movie image url
@@ -68,16 +71,23 @@ const MovieHero: React.FC<Props> = ({ data }: Props): React.ReactElement => {
     return (
         <>
             <OwnHeroWrapper img={baseURL + backdrop_path}>
-                <div className="heroMovDetails has-text-left">
-                    <p className="movHeroTitle is-5-mobile">{original_title}</p>
-                    <p className="movHeroSyn is-6-mobile">
+                <div className={`heroMovDetails ${!isMobTab && 'notMobTab'}`}>
+                    <p className="movHeroTitle has-text-centered-mobile has-text-left-tablet is-size-1-tablet is-size-3-mobile">
+                        {original_title}
+                    </p>
+                    <p className="movHeroSyn has-text-centered-mobile has-text-left-tablet is-size-6-mobile is-size-6-tablet is-size-6-desktop">
                         {overview === ''
                             ? `The movie "${original_title}" has no available synopsis yet.
                             It may be due to a server issue. Please bear with us and wait for a while.`
                             : overview}
                     </p>
                     <br />
-                    <button onClick={handleBtnClick} className="button is-white is-outlined">
+                    <button
+                        onClick={handleBtnClick}
+                        className={`button is-white is-outlined
+                        ${!isMobTab && 'notMobTab'}
+                        ${data === undefined && 'is-loading'}`}
+                    >
                         <span>Trailer</span>
                         <span className="icon is-small">
                             <IoLogoYoutube size={16} />

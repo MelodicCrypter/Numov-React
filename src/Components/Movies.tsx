@@ -123,7 +123,7 @@ const Movies: React.FC<Props> = ({
                     await setTopMovData(topMovBase);
 
                     // Get and set the one highest rated movie for the MovieHero component
-                    const featuredMovie = upcomingMovBase.find(feat => feat.popularity > 100);
+                    const featuredMovie = upcomingMovBase.find(feat => feat.popularity < 90);
                     await setHeroMovData(featuredMovie);
                 }),
             )

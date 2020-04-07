@@ -40,8 +40,8 @@ const MovieCarousel: React.FC<Props> = ({ data, view, type, trailerType }: Props
                                         arrows: true,
                                     },
                                     500: {
-                                        slidesPerPage: 2,
-                                        slidesPerScroll: 2,
+                                        slidesPerPage: 1,
+                                        slidesPerScroll: 1,
                                         clickToChange: false,
                                         centered: false,
                                     },
@@ -80,8 +80,8 @@ const MovieCarousel: React.FC<Props> = ({ data, view, type, trailerType }: Props
                                         arrows: true,
                                     },
                                     500: {
-                                        slidesPerPage: 4,
-                                        slidesPerScroll: 3,
+                                        slidesPerPage: 2,
+                                        slidesPerScroll: 2,
                                         clickToChange: false,
                                         centered: false,
                                     },
