@@ -55,7 +55,7 @@ const Main: React.FC = (): React.ReactElement => {
             <main>
                 <ErrorBoundary onError={ErrorHandler}>
                     <section id="heroSection" className={`hero is-fullheight ${dataStore.modalOn && 'modald'}`}>
-                        <Fade delay={20}>
+                        <Fade delay={30}>
                             <Movies view="hero" type="hero" trailer="movie" />
                         </Fade>
                     </section>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IoLogoYoutube } from 'react-icons/io';
 import { useMediaQuery } from 'react-responsive';
+import Fade from 'react-reveal/Fade';
 
 // Local Modules
 import MoviePreview from './MoviePreview';
@@ -70,31 +71,41 @@ const MovieHero: React.FC<Props> = ({ data }: Props): React.ReactElement => {
     // Hero Design for the featured movie
     return (
         <>
-            <OwnHeroWrapper img={baseURL + backdrop_path}>
-                <div className={`heroMovDetails ${!isMobTab && 'notMobTab'}`}>
-                    <p className="movHeroTitle has-text-centered-mobile has-text-left-tablet is-size-1-tablet is-size-3-mobile">
-                        {original_title}
-                    </p>
-                    <p className="movHeroSyn has-text-centered-mobile has-text-left-tablet is-size-6-mobile is-size-6-tablet is-size-6-desktop">
-                        {overview === ''
-                            ? `The movie "${original_title}" has no available synopsis yet.
+            <Fade delay={50}>
+                <OwnHeroWrapper img={baseURL + backdrop_path}>
+                    <div className={`heroMovDetails ${!isMobTab && 'notMobTab'}`}>
+                        <p
+                            className="movHeroTitle has-text-centered-mobile
+                        has-text-left-tablet is-size-1-tablet is-size-3-mobile"
+                        >
+                            {original_title}
+                        </p>
+                        <p
+                            className="movHeroSyn has-text-centered-mobile has-text-left-tablet
+                    is-size-8-mobile is-size-6-tablet is-size-6-desktop"
+                        >
+                            {overview === ''
+                                ? `The movie "${original_title}" has no available synopsis yet.
                             It may be due to a server issue. Please bear with us and wait for a while.`
-                            : overview}
-                    </p>
-                    <br />
-                    <button
-                        onClick={handleBtnClick}
-                        className={`button is-white is-outlined
+                                : overview !== undefined && overview.length > 400
+                                ? `${overview.substring(0, 400)} ...`
+                                : overview}
+                        </p>
+                        <br />
+                        <button
+                            onClick={handleBtnClick}
+                            className={`button is-white is-outlined
                         ${!isMobTab && 'notMobTab'}
                         ${data === undefined && 'is-loading'}`}
-                    >
-                        <span>Trailer</span>
-                        <span className="icon is-small">
-                            <IoLogoYoutube size={16} />
-                        </span>
-                    </button>
-                </div>
-            </OwnHeroWrapper>
+                        >
+                            <span>Trailer</span>
+                            <span className="icon is-small">
+                                <IoLogoYoutube size={16} />
+                            </span>
+                        </button>
+                    </div>
+                </OwnHeroWrapper>
+            </Fade>
 
             {isClicked && <MoviePreview active clipped />}
         </>

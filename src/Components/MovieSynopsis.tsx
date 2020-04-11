@@ -21,12 +21,12 @@ const SynopsisWrapper = styled.div`
     width: 100%;
     min-height: 57vh;
     max-height: 100vh;
-    height: auto;
+    height: 100%;
 `;
 
 const Title = styled.p`
     margin-top: 20px;
-    font-size: 3rem;
+    font-size: 2rem;
     color: white;
     font-weight: 600;
     font-family: Roboto;
@@ -64,10 +64,9 @@ const Bibo = styled.span`
 `;
 
 const PrevBibo = styled.span`
-    font-size: 0.8rem;
-    color: #826969;
+    font-size: 0.6rem;
+    color: white;
     font-weight: 300;
-    background: #ffffff69;
     border-radius: 2px;
     padding-left: 4px;
     margin-left: 0px;
@@ -172,7 +171,12 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
 
     return (
         <>
-            <SynopsisWrapper id="synopsis" ref={synopRef} className={`${identifierWrapper === 'preview' && 'prevOn'}`}>
+            <SynopsisWrapper
+                key={new Date()}
+                id="synopsis"
+                ref={synopRef}
+                className={`${identifierWrapper === 'preview' && 'prevOn'}`}
+            >
                 <div className="container">
                     <div className={`columns ${identifierWrapper !== 'preview' && 'is-desktop'}`}>
                         {identifierWrapper !== 'preview' && (
@@ -216,14 +220,14 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
                                             </Para>
                                         </ul>
 
-                                        <span id="synopsisBot2Wrap">
-                                            <Para>Genre: </Para>{' '}
-                                            <ul id="synopsisBot2">
+                                        <span id="synopsisBot1Wrap">
+                                            <Para>Genre: </Para>
+                                            <ul id="synopsisBot1WrapCntx">
                                                 {movInfo.genres !== undefined ? (
                                                     movInfo.genres.map(g => {
                                                         return (
                                                             <li key={g.id}>
-                                                                <Bibo>{g.name}, &nbsp; </Bibo>
+                                                                <Bibo>{g.name}, </Bibo>
                                                             </li>
                                                         );
                                                     })
@@ -242,7 +246,7 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
                         <div
                             className={`column ${
                                 identifierWrapper === 'preview'
-                                    ? 'auto is-three-quarters-desktop'
+                                    ? 'auto is-four-fifths-tablet is-four-fifths-desktop'
                                     : 'is-three-fifths-desktop is-full-mobile is-full-tablet'
                             }`}
                         >
@@ -261,6 +265,7 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
                                     )}
                                 </Suspense>
                             )}
+
                             {identifierWrapper === 'preview' && Object.keys(movInfo).length !== 0 && (
                                 <>
                                     <br />
@@ -269,42 +274,70 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
 
                                     <br />
 
-                                    <ul id="synopsisBot1" className="prev-btm-1">
+                                    <ul id="synopsisBot2" className="prev-btm-1">
                                         <li>
                                             <PrevPara>
-                                                Runtime: <PrevBibo> {movInfo.duration} &nbsp;</PrevBibo> &nbsp;
+                                                Runtime:
+                                                <PrevBibo>
+                                                    <button className="button is-xsm is-greeny is-outlined">
+                                                        {movInfo.duration}
+                                                    </button>
+                                                </PrevBibo>
                                             </PrevPara>
                                         </li>
                                         <li>
                                             <PrevPara>
-                                                Rating: <PrevBibo> {movInfo.rating} &nbsp;</PrevBibo> &nbsp;
+                                                Rating:
+                                                <PrevBibo>
+                                                    <button className="button is-xsm is-greeny is-outlined">
+                                                        {movInfo.rating}
+                                                    </button>
+                                                </PrevBibo>
                                             </PrevPara>
                                         </li>
                                         <li>
                                             <PrevPara>
-                                                Year: <PrevBibo> {movInfo.year} &nbsp; &nbsp; </PrevBibo> &nbsp;
+                                                Year:
+                                                <PrevBibo>
+                                                    <button className="button is-xsm is-greeny is-outlined">
+                                                        {movInfo.year}
+                                                    </button>
+                                                </PrevBibo>
                                             </PrevPara>
                                         </li>
-                                        <li>
-                                            {movInfo.seasons !== '' && (
-                                                <PrevPara>
-                                                    Seasons: <PrevBibo> {movInfo.seasons} &nbsp;</PrevBibo> &nbsp;
-                                                </PrevPara>
-                                            )}
-                                        </li>
+                                        {/*<li>*/}
+                                        {/*    {movInfo.seasons !== '' && (*/}
+                                        {/*        <PrevPara>*/}
+                                        {/*            Seasons:*/}
+                                        {/*            <PrevBibo>*/}
+                                        {/*                <button className="button is-xsm is-greeny is-outlined">*/}
+                                        {/*                    {movInfo.seasons}*/}
+                                        {/*                </button>*/}
+                                        {/*            </PrevBibo>*/}
+                                        {/*        </PrevPara>*/}
+                                        {/*    )}*/}
+                                        {/*</li>*/}
                                         <PrevPara>
-                                            Status: <PrevBibo> {movInfo.status} &nbsp; </PrevBibo> &nbsp;
+                                            Status:
+                                            <PrevBibo>
+                                                <button className="button is-xsm is-greeny is-outlined">
+                                                    {movInfo.status}
+                                                </button>
+                                            </PrevBibo>
+                                            &nbsp;
                                         </PrevPara>
                                     </ul>
 
                                     <span id="synopsisBot2Wrap" className="prev-btm-2">
-                                        <PrevPara>Genre: </PrevPara>{' '}
-                                        <ul id="synopsisBot2">
+                                        <PrevPara>Genre: </PrevPara>
+                                        <ul id="synopsisBot2WrapCntx">
                                             {movInfo.genres !== undefined ? (
                                                 movInfo.genres.map(g => {
                                                     return (
                                                         <li key={g.id}>
-                                                            <PrevBibo>{g.name}, &nbsp;</PrevBibo> &nbsp;
+                                                            <button className="button is-xsm is-cblue is-outlined">
+                                                                <PrevBibo>{g.name}</PrevBibo>
+                                                            </button>
                                                         </li>
                                                     );
                                                 })
@@ -313,6 +346,7 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
                                             )}
                                         </ul>
                                     </span>
+                                    <br />
                                 </>
                             )}
                         </div>

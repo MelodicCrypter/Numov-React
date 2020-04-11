@@ -1,5 +1,6 @@
 import React, { useContext, useRef, ReactNode } from 'react';
 import scrollToComponent from 'react-scroll-to-component';
+import { isAndroid, isIOS } from 'react-device-detect';
 
 // Local Modules
 import AppContext from './AppContext';
@@ -70,6 +71,13 @@ const Eventor: React.FC<Props> = ({ children }: Props): React.ReactElement => {
         if (identifierName === 'upcoming') {
             await scrollToComponent(hovRef.current.offsetParent.offsetParent.offsetParent, {
                 offset: 0,
+                align: 'top',
+                duration: 900,
+                ease: 'inCirc',
+            });
+        } else if (isAndroid || isIOS) {
+            await scrollToComponent(hovRef.current.offsetParent.offsetParent.offsetParent, {
+                offset: 170,
                 align: 'top',
                 duration: 900,
                 ease: 'inCirc',

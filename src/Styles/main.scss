@@ -9,13 +9,30 @@ $modal-content-width: 100% !important;
 @import "~bulma";
 // Bulma - Carousel
 @import "~bulma-carousel";
+// Mixins
+@import '~bulma/sass/utilities/mixins';
 
+// Own Helpers
+.is-xsm {
+  font-size: 0.65rem;
+}
+.is-cblue.is-outlined {
+  background-color: #8da2b1;
+  border-color: white;
+  color: white;
+}
+.is-greeny.is-outlined {
+  background-color: #b0b79e;
+  border-color: white;
+  color: white;
+}
 
 // Main Styles
 html,
 body {
   background: #141414 !important;
 }
+// Body
 #heroSection {
   position: relative;
   z-index: 0;
@@ -24,6 +41,7 @@ body {
     z-index: 2 !important;
   }
 }
+
 #belowHeroSection {
   position: relative;
   margin-top: -270px;
@@ -32,6 +50,13 @@ body {
     margin-top: -170px;
     padding-left: 18px;
     padding-right: 8px;
+
+    & {
+      @include until(768px) {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+      }
+    }
   }
 }
 
@@ -43,6 +68,12 @@ body {
 
   &.special {
     margin-top: 28px;
+  }
+
+  & {
+    @include until(768px) {
+      margin-left: 12px;
+    }
   }
 }
 
@@ -83,17 +114,41 @@ section.carousel {
     background: transparent !important;
   }
 }
+
+#synopsisBot1Wrap,
 #synopsisBot2Wrap {
-  margin-top: 6px;
+  margin-top: 20px;
   display: flex;
 }
 #synopsisBot1,
-#synopsisBot2 {
+#synopsisBot2,
+#synopsisBot1WrapCntx,
+#synopsisBot2WrapCntx,{
   display: flex;
 }
 #synopsisBot2 {
-  margin-left: 4px;
-  margin-top: -4px;
+  & li {
+    margin-left: 4px;
+    margin-right: 8px;
+  }
+  & button {
+    margin-top: -4px;
+  }
+}
+#synopsisBot1WrapCntx {
+  & li {
+    margin-top:-4px;
+    margin-left: 5px;
+  }
+}
+#synopsisBot2WrapCntx {
+  & li {
+    margin-right: 4px;
+    margin-left: 4px;
+  }
+  & button {
+    margin-top: -4px;
+  }
 }
 
 .modal {
@@ -120,6 +175,29 @@ section.carousel {
 
   & .delete, .modal-close {
     margin-right: 100px;
+
+    @include until(520px) {
+      margin-right: 10px;
+    }
+  }
+
+  &.is-active {
+    display: flex;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+  }
+}
+
+// React player
+#playerWrap {
+  position: relative;
+  padding-top: 56.25%;
+
+  & .react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 
@@ -206,3 +284,16 @@ section.carousel {
     background: #ececec;
   }
 }
+
+// Breakpoint:
+// Own Helpers
+.is-size-8-mobile {
+  @include until(768px) {
+    font-size: .9em !important;
+    line-height: 20px !important;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+
