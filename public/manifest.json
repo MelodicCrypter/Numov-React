@@ -27,6 +27,5 @@
     "https://*.youtube.com/",
     "storage",
     "<all_urls>"
-  ],
-  "content_security_policy": "frame-src youtube.com; child-src youtube.com; worker-src youtube.com; script-src-elem youtube.com; object-src none"
+  ]
 }
