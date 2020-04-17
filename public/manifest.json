@@ -1,6 +1,6 @@
 {
   "name": "Numov",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "manifest_version": 2,
   "description": "Numov is a modern cross-browser extension that feeds top and latest movies.",
   "author": "Hugh Caluscusin (Melodic Crypter)",
@@ -10,13 +10,13 @@
     "default_popup": "popup.html"
   },
   "icons": {
-    "16": "img/extension_icon16.png",
-    "32": "img/extension_icon32.png",
-    "48": "img/extension_icon48.png",
-    "64": "img/extension_icon64.png",
-    "128": "img/extension_icon128.png",
-    "256": "img/extension_icon256.png"
-  },
+      "16": "img/extension_icon16.png",
+      "32": "img/extension_icon32.png",
+      "48": "img/extension_icon48.png",
+      "64": "img/extension_icon64.png",
+      "128": "img/extension_icon128.png",
+      "256": "img/extension_icon256.png"
+    },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
@@ -24,7 +24,9 @@
     "activeTab",
     "https://*/*",
     "http://*/*",
+    "https://*.youtube.com/",
+    "storage",
     "<all_urls>"
   ],
-  "content_security_policy": "script-src 'self' https://youtube.com https://www.youtube.com https://s.ytimg.com https://ytimg.com; object-src 'self'"
+  "content_security_policy": "frame-src youtube.com; child-src youtube.com; worker-src youtube.com; script-src-elem youtube.com; object-src none"
 }

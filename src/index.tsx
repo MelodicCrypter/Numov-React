@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import WebFont from 'webfontloader';
 
 // Local Modules
@@ -18,7 +18,7 @@ WebFont.load({
 // Launch 🚀
 const root = document.getElementById('root');
 if (root !== null) {
-    ReactDOM.render(
+    render(
         <React.StrictMode>
             <App />
         </React.StrictMode>,

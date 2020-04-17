@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { IoLogoYoutube } from 'react-icons/io';
 import { useMediaQuery } from 'react-responsive';
 import Fade from 'react-reveal/Fade';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 
 // Local Modules
 import MoviePreview from './MoviePreview';
-import AppContext from './AppContext';
+import { LOCAL_MAIN_DEF_QUERY, LOCAL_MAIN_DEF_MUTATION } from '../Utils/withApolloClient';
 
 // TS Props
 interface Props {
@@ -33,39 +34,35 @@ const OwnHeroWrapper = styled.div`
 
 // <MovieCarousel /> Functional Component
 const MovieHero: React.FC<Props> = ({ data }: Props): React.ReactElement => {
+    // Apollo Client - Query
+    const { data: localDefData } = useQuery(LOCAL_MAIN_DEF_QUERY, { fetchPolicy: 'cache-only' });
+    // Apollo Client - Mutation
+    const [setDef] = useMutation(LOCAL_MAIN_DEF_MUTATION);
+
     // Detect if custom-size is true
     const isMobTab = useMediaQuery({ minWidth: 0, maxWidth: 1024 });
+
     // Component Setting
     const baseURL = 'https://image.tmdb.org/t/p/original/';
+
     // The movie image url
     const { backdrop_path, original_title, overview, id } = data !== undefined ? data : '';
-
-    // Context
-    const [dataStore, setDataStore] = useContext<any>(AppContext);
-
-    // States
-    const [isClicked, setIsClicked] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (!dataStore.modalOn) {
-            setIsClicked(false);
-        } else {
-            setIsClicked(true);
-        }
-    }, [dataStore.modalOn]);
 
     // Handler for click
     const handleBtnClick = e => {
         e.preventDefault();
 
-        // Set context
-        setDataStore({
-            ...dataStore,
-            modalOn: true,
-            clickStat: id,
-            identifierWrapper: 'preview',
-            trailerType: 'movie',
-        });
+        // Set Apollo local defs
+        setDef({
+            variables: {
+                obj: {
+                    modalOn: true,
+                    clickStat: id,
+                    identifierWrapper: 'preview',
+                    trailerType: 'movie',
+                },
+            },
+        }).then();
     };
 
     // Hero Design for the featured movie
@@ -107,7 +104,7 @@ const MovieHero: React.FC<Props> = ({ data }: Props): React.ReactElement => {
                 </OwnHeroWrapper>
             </Fade>
 
-            {isClicked && <MoviePreview active clipped />}
+            {localDefData.modalOn && <MoviePreview />}
         </>
     );
 };

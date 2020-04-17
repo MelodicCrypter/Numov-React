@@ -6,7 +6,7 @@ import genres from '../Model/data';
  *
  * This will return the genre's id
  */
-const getGenreId = (genre: string) => {
+const getGenreId = (genre: string): number => {
     const movie: Array<any> = genres.filter(g => g.name === genre);
     const { id }: { id: number } = movie[0];
 
