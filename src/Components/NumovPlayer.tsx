@@ -1,9 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import YouTubePlayer from 'react-player/lib/players/YouTube';
 import Fade from 'react-reveal/Fade';
-
-// Local Modules
-import AppContext from './AppContext';
 
 // TS Props
 interface Props {
@@ -11,9 +8,6 @@ interface Props {
 }
 
 const NumovPlayer: React.FC<Props> = ({ url }: Props): React.ReactElement => {
-    // Context
-    const [dataStore] = useContext<any>(AppContext);
-
     return !url.includes('undefined') ? (
         <Fade>
             <div id="playerWrap" className="container">

@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState, useRef, lazy, Suspense } from 'react';
+import React, { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import ms from 'ms';
+import { useQuery } from '@apollo/react-hooks';
 
 // Local Modules
-import AppContext from './AppContext';
 import Spinner from './Spinner';
+import { LOCAL_MAIN_DEF_QUERY } from '../Utils/withApolloClient';
 // Lazy
 const NumovPlayer = lazy(() => import('./NumovPlayer'));
 
@@ -74,11 +75,11 @@ const PrevBibo = styled.span`
 
 // <MovieSynopsis /> Functional Component
 const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
+    // Apollo Client - Query, querying default states
+    const { data: localDefData } = useQuery(LOCAL_MAIN_DEF_QUERY, { fetchPolicy: 'cache-only' });
+
     // TMDB API
     const apiKey: string | undefined = process.env.REACT_APP_TMDB_API_KEY;
-
-    // Context
-    const [dataStore] = useContext<any>(AppContext);
 
     // States
     const [movTrailerLinks, setMovTrailerLinks] = useState<Array<any>>([]);
@@ -90,7 +91,7 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
     // The id of the movie that was clicked
     // and the identifier of the div wrapping it
     // it could be 'upcoming' 'tvTrending' and so on
-    const { clickStat: movieID, trailerType, identifierWrapper } = dataStore;
+    const { clickStat: movieID, trailerType, identifierWrapper } = localDefData;
 
     // Movie Endpoints
     const movieInfoEndpoint = `https://api.themoviedb.org/3/${

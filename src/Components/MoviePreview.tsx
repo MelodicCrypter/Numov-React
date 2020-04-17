@@ -1,42 +1,42 @@
-import React, { useContext, useState, lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 
 // Local Modules
-import AppContext from './AppContext';
 import Spinner from './Spinner';
+import { LOCAL_MAIN_DEF_MUTATION, LOCAL_MAIN_DEF_QUERY } from '../Utils/withApolloClient';
 // Lazy
 const MovieSynopsis = lazy(() => import('./MovieSynopsis'));
 
 interface Props {
-    active: boolean;
+    active?: boolean;
     clipped?: boolean;
 }
 
 const MoviePreview: React.FC<Props> = ({ active, clipped }: Props): React.ReactElement => {
-    // Context
-    const [dataStore, setDataStore] = useContext<any>(AppContext);
-
-    // States
-    const [isActive, setIsActive] = useState<boolean | undefined>(active);
-    const [isClipped, setIsClipped] = useState<boolean | undefined>(clipped);
+    // Apollo Client - Mutation
+    const [setDef] = useMutation(LOCAL_MAIN_DEF_MUTATION);
+    // Apollo Client - Query, querying default states
+    const { data: localDefData } = useQuery(LOCAL_MAIN_DEF_QUERY, { fetchPolicy: 'cache-only' });
 
     // Handler for close
     const handleClose = e => {
         e.preventDefault();
 
-        setIsActive(false);
-        setIsClipped(false);
-        setDataStore({
-            ...dataStore,
-            modalOn: false,
-            clickStat: '',
-            identifierWrapper: '',
-            trailerType: '',
-        });
+        setDef({
+            variables: {
+                obj: {
+                    modalOn: false,
+                    clickStat: '',
+                    identifierWrapper: '',
+                    trailerType: '',
+                },
+            },
+        }).then();
     };
 
     return (
-        <div className={`container ${isClipped && 'is-clipped'}`}>
-            <div className={`modal ${isActive && 'is-active'}`}>
+        <div className={`container ${localDefData.modalOn && 'is-clipped'}`}>
+            <div className={`modal ${localDefData.modalOn && 'is-active'}`}>
                 <div className="modal-background"></div>
                 <div className="modal-card">
                     <header className="modal-card-head">
@@ -44,7 +44,7 @@ const MoviePreview: React.FC<Props> = ({ active, clipped }: Props): React.ReactE
                         <button onClick={handleClose} className="delete" aria-label="close"></button>
                     </header>
                     <section className="modal-card-body">
-                        {dataStore.identifierWrapper === 'preview' && (
+                        {localDefData.identifierWrapper === 'preview' && (
                             <Suspense fallback={<Spinner />}>
                                 <MovieSynopsis />
                             </Suspense>

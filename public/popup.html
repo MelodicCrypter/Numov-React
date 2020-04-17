@@ -1,0 +1,202 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Numov Menu</title>
+
+</head>
+
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Abel|Inconsolata|Open+Sans+Condensed:300|Sniglet&display=swap);
+    body {
+        background: linear-gradient(110deg, rgb(177, 129, 177) 0%, rgb(37, 71, 115) 100%);
+    }
+    main {
+        width: 400px;
+        height: auto;
+        color: white;
+        min-height: 500px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    /* ------- popup --------*/
+    #popupNomuv p {
+        font-size: 3em;
+        color: white;
+        position: relative;
+        top: 10px;
+        font-family: 'Abel', sans-serif;
+        letter-spacing: 21px;
+        text-transform: uppercase;
+        text-shadow: 0px 4px 2px #885e00;
+        text-align: center;
+        margin-left: 20px;
+    }
+
+    #popupDev {
+
+    }
+    #popupDev p {
+        font-size: .9em;
+        position: relative;
+        top: -20px;
+        letter-spacing: 2px;
+        margin-left: -2px;
+        text-shadow: 0px 4px 2px #58565075;
+    }
+    #popupDev a {
+        text-decoration: none;
+        color: #f5ddc4;
+    }
+
+    #popupAbout {
+        top: -5px;
+        width: 81%;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 1.1em;
+        font-family: Inconsolata;
+        font-weight: 100;
+        letter-spacing: 1px;
+        line-height: 18px;
+        font-style: italic;
+    }
+    #popupBelowAbout {
+        position: relative;
+        top: 49px;
+        width: 68%;
+        margin: 0 auto;
+        text-align: left;
+        font-size: .9em;
+        font-family: inherit;
+        font-weight: 100;
+        letter-spacing: 1px;
+        border: 2px solid rgba(232, 166, 204, 0.23);
+        padding: 10px;
+        line-height: 18px;
+    }
+    #popupLoadMore, #popupYear {
+        background: #4770bf;
+        padding: 3px;
+        font-size: 7px !important;
+        border: 1px solid #9e9e9e;
+        border-radius: 3px;
+    }
+    #numovLogo {
+        margin: 0 auto;
+        width: 48px;
+        height: 48px;
+        margin-bottom: -42px;
+    }
+    #numovLogo img {
+        width: 100%;
+    }
+    /* styles specifically for FF */
+    @-moz-document url-prefix() {
+        /* ------- popup --------*/
+        #popupNomuv p {
+            font-size: 2.4em;
+            color: white;
+            position: relative;
+            top: 10px;
+            font-family: 'Abel', sans-serif;
+            letter-spacing: 21px;
+            text-transform: uppercase;
+            text-shadow: 0px 4px 2px #885e00;
+            text-align: center;
+            margin-left: 20px;
+        }
+
+        #popupDev {
+
+        }
+        #popupDev p {
+            font-size: .6em;
+            position: relative;
+            top: -20px;
+            letter-spacing: 2px;
+            margin-left: -2px;
+            text-shadow: 0px 4px 2px #58565075;
+        }
+        #popupDev a {
+            text-decoration: none;
+            color: #f5ddc4;
+        }
+
+        #popupAbout {
+            top: -5px;
+            width: 81%;
+            margin: 0 auto;
+            text-align: center;
+            font-size: .7em;
+            font-family: Inconsolata;
+            font-weight: 100;
+            letter-spacing: 1px;
+            line-height: 18px;
+            font-style: italic;
+        }
+        #popupBelowAbout {
+            position: relative;
+            top: 49px;
+            width: 68%;
+            margin: 0 auto;
+            text-align: left;
+            font-size: .7em;
+            font-family: inherit;
+            font-weight: 100;
+            letter-spacing: 1px;
+            border: 2px solid rgba(232, 166, 204, 0.23);
+            padding: 10px;
+            line-height: 18px;
+        }
+        #popupLoadMore, #popupYear {
+            background: #4770bf;
+            padding: 3px;
+            font-size: 7px !important;
+            border: 1px solid #9e9e9e;
+            border-radius: 3px;
+        }
+    }
+</style>
+
+<body>
+<header>
+    <nav></nav>
+</header>
+
+<main>
+    <section>
+        <div><img></div>
+
+        <div id="popupNomuv">
+            <div id="numovLogo"><img src="img/icon.png"></div>
+            <p id="creator">NUMOV</p>
+        </div>
+
+        <div id="popupDev">
+            <p>Developed by <a href="https://github.com/MelodicCrypter" target="_blank">Melodic Crypter</a></p>
+        </div>
+
+        <div id="popupAbout">
+            <p>Numov is a browser extension that feeds you the latest-top rated movies, arranged in categories, with a Netflix-style UI.</p>
+        </div>
+
+        <div id="popupBelowAbout">
+            <p>Future Features:</p>
+            <p>
+                &#8227; Add a <span id="popupLoadMore">LOAD MORE</span> button, so that you can load more movies based on the set you're viewing. <br><br>
+                &#8227; Add a <span id="popupYear">YEAR</span> selection, so that you can choose the specific year to load. <br>
+            </p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div></div>
+</footer>
+
+</body>
+</html>

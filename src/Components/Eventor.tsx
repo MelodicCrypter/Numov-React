@@ -1,9 +1,10 @@
-import React, { useContext, useRef, ReactNode } from 'react';
+import React, { useRef, ReactNode } from 'react';
 import scrollToComponent from 'react-scroll-to-component';
 import { isAndroid, isIOS } from 'react-device-detect';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 
 // Local Modules
-import AppContext from './AppContext';
+import { LOCAL_MAIN_DEF_MUTATION, LOCAL_MAIN_DEF_QUERY } from '../Utils/withApolloClient';
 
 // TS Props
 interface Props {
@@ -12,8 +13,10 @@ interface Props {
 
 // The <Eventor /> Component
 const Eventor: React.FC<Props> = ({ children }: Props): React.ReactElement => {
-    // Context
-    const [dataStore, setDataStore] = useContext<any>(AppContext);
+    // Apollo Client - Mutation
+    const [setDef] = useMutation(LOCAL_MAIN_DEF_MUTATION);
+    // Apollo Client - Query, querying default states
+    const { data: localDefData } = useQuery(LOCAL_MAIN_DEF_QUERY, { fetchPolicy: 'cache-only' });
 
     // Ref
     const hovRef: any = useRef<HTMLDivElement>(null);
@@ -52,106 +55,133 @@ const Eventor: React.FC<Props> = ({ children }: Props): React.ReactElement => {
     // Handler for clicks
     const handleClick = async e => {
         e.preventDefault();
-        // Destructure data store
-        const { clickStat } = dataStore;
-        // This is main parent containing all movies
-        const mainParent = await hovRef.current.offsetParent.offsetParent.offsetParent.offsetParent;
-        // This is the genre identifier div > id
-        const identifierName = hovRef.current.offsetParent.offsetParent.offsetParent.firstChild.id;
-        // Movie ID and trailer type
-        const { movId, trailerType: tType } = await hovRef.current.firstChild.dataset;
-        // This is parent <li>
-        const liParent = await hovRef.current.offsetParent;
-        // The li same as liParent above, but we need to traverse again for the .clicked
-        const liElemToEdit: any = await mainParent.querySelectorAll('.clicked');
-        // Distance from top
-        // const elDistanceToTop = window.pageYOffset + liParent.getBoundingClientRect().top;
+        if (localDefData !== undefined) {
+            // Destructure data store
+            const { clickStat } = localDefData;
+            // This is main parent containing all movies
+            const mainParent = await hovRef.current.offsetParent.offsetParent.offsetParent.offsetParent;
+            // This is the genre identifier div > id
+            const identifierName = hovRef.current.offsetParent.offsetParent.offsetParent.firstChild.id;
+            // Movie ID and trailer type
+            const { movId, trailerType: tType } = await hovRef.current.firstChild.dataset;
+            // This is parent <li>
+            const liParent = await hovRef.current.offsetParent;
+            // The li same as liParent above, but we need to traverse again for the .clicked
+            const liElemToEdit: any = await mainParent.querySelectorAll('.clicked');
+            // Distance from top
+            // const elDistanceToTop = window.pageYOffset + liParent.getBoundingClientRect().top;
 
-        // Auto scroll but only execute if 'upcoming' list cause there is a bug
-        if (identifierName === 'upcoming') {
-            await scrollToComponent(hovRef.current.offsetParent.offsetParent.offsetParent, {
-                offset: 0,
-                align: 'top',
-                duration: 900,
-                ease: 'inCirc',
-            });
-        } else if (isAndroid || isIOS) {
-            await scrollToComponent(hovRef.current.offsetParent.offsetParent.offsetParent, {
-                offset: 170,
-                align: 'top',
-                duration: 900,
-                ease: 'inCirc',
-            });
-        } else {
-            await scrollToComponent(hovRef.current.offsetParent.offsetParent.offsetParent, {
-                offset: 270,
-                align: 'middle',
-                duration: 900,
-                ease: 'inCirc',
-            });
-        }
+            // Auto scroll but only execute if 'upcoming' list cause there is a bug
+            if (identifierName === 'upcoming') {
+                await scrollToComponent(hovRef.current.offsetParent.offsetParent.offsetParent, {
+                    offset: 0,
+                    align: 'top',
+                    duration: 900,
+                    ease: 'inCirc',
+                });
+            } else if (isAndroid || isIOS) {
+                await scrollToComponent(hovRef.current.offsetParent.offsetParent.offsetParent, {
+                    offset: 170,
+                    align: 'top',
+                    duration: 900,
+                    ease: 'inCirc',
+                });
+            } else {
+                await scrollToComponent(hovRef.current.offsetParent.offsetParent.offsetParent, {
+                    offset: 270,
+                    align: 'middle',
+                    duration: 900,
+                    ease: 'inCirc',
+                });
+            }
 
-        // If the clickStat is not empty
-        // It means the user has already clicked another movie thumbnail
-        if (clickStat !== '') {
-            if (clickStat === movId) {
-                // Set the new click stat
-                await setDataStore({ ...dataStore, clickStat: '', trailerType: '', identifierWrapper: '' });
-
-                try {
-                    await liElemToEdit[0].classList.remove('clicked', 'hovered');
-                } catch (e) {
-                    console.log('Eventor: Error');
+            // If the clickStat is not empty
+            // It means the user has already clicked another movie thumbnail
+            // clickstat variable here
+            if (clickStat !== '') {
+                if (clickStat === movId) {
                     // Set the new click stat
-                    await setDataStore({ ...dataStore, clickStat: '', trailerType: '', identifierWrapper: '' });
+                    await setDef({
+                        variables: {
+                            obj: {
+                                modalOn: localDefData.modalOn,
+                                clickStat: '',
+                                identifierWrapper: '',
+                                trailerType: '',
+                            },
+                        },
+                    });
+
+                    try {
+                        await liElemToEdit[0].classList.remove('clicked', 'hovered');
+                    } catch (e) {
+                        console.log('Eventor: Error');
+                    }
+                } else {
+                    // (img[data-mov-id="${CSS.escape(currentClick)}"]`) => just ignore this
+                    // Let's put it in a try/catch to prevent the app from crashing
+                    try {
+                        // Anyway, this is where we remove the .clicked and .hovered classes
+                        await liElemToEdit[0].classList.remove('clicked', 'hovered');
+
+                        // Add .clicked to the current one
+                        await liParent.classList.add('clicked');
+
+                        // Set the new click stat
+                        await setDef({
+                            variables: {
+                                obj: {
+                                    modalOn: localDefData.modalOn,
+                                    clickStat: movId,
+                                    identifierWrapper: identifierName,
+                                    trailerType: tType,
+                                },
+                            },
+                        });
+                    } catch (e) {
+                        console.log('Eventor: Error');
+                        // Set the new click stat
+                        await setDef({
+                            variables: {
+                                obj: {
+                                    modalOn: localDefData.modalOn,
+                                    clickStat: '',
+                                    identifierWrapper: '',
+                                    trailerType: '',
+                                },
+                            },
+                        });
+                    }
                 }
             } else {
-                // (img[data-mov-id="${CSS.escape(currentClick)}"]`) => just ignore this
-                // Let's put it in a try/catch to prevent the app from crashing
                 try {
-                    // Anyway, this is where we remove the .clicked and .hovered classes
-                    await liElemToEdit[0].classList.remove('clicked', 'hovered');
-
-                    // Add .clicked to the current one
+                    // Add .clicked class
                     await liParent.classList.add('clicked');
 
                     // Set the new click stat
-                    await setDataStore({
-                        ...dataStore,
-                        clickStat: movId,
-                        trailerType: tType,
-                        identifierWrapper: identifierName,
+                    await setDef({
+                        variables: {
+                            obj: {
+                                modalOn: localDefData.modalOn,
+                                clickStat: movId,
+                                identifierWrapper: identifierName,
+                                trailerType: tType,
+                            },
+                        },
                     });
                 } catch (e) {
                     console.log('Eventor: Error');
-                    // Set the new click stat
-                    await setDataStore({ ...dataStore, clickStat: '', trailerType: '', identifierWrapper: '' });
                 }
-            }
-        } else {
-            try {
-                // Add .clicked class
-                await liParent.classList.add('clicked');
-
-                // Set the new click stat
-                await setDataStore({
-                    ...dataStore,
-                    clickStat: movId,
-                    trailerType: tType,
-                    identifierWrapper: identifierName,
-                });
-            } catch (e) {
-                console.log('Eventor: Error');
-                // Set the new click stat
-                await setDataStore({ ...dataStore, clickStat: '', trailerType: '', identifierWrapper: '' });
             }
         }
     };
 
     return (
-        <div ref={hovRef} onMouseEnter={handleHover} onMouseLeave={handleHover} onClick={handleClick}>
-            {children}
-        </div>
+        <>
+            <div ref={hovRef} onMouseEnter={handleHover} onMouseLeave={handleHover} onClick={handleClick}>
+                {children}
+            </div>
+        </>
     );
 };
 
