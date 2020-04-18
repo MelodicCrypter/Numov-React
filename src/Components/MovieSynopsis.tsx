@@ -255,13 +255,7 @@ const MovieSynopsis: React.FC<Props> = (): React.ReactElement => {
                                 <Suspense fallback={<Spinner />}>
                                     {movieID !== '' && (
                                         <div className={`${identifierWrapper === 'preview' && 'prev-trailer'}`}>
-                                            <NumovPlayer
-                                                url={
-                                                    movieID !== ''
-                                                        ? `https://www.youtube.com/watch?v=${movTrailerLinks[0]}`
-                                                        : ''
-                                                }
-                                            />
+                                            <NumovPlayer trailID={movieID !== '' ? movTrailerLinks[0] : ''} />
                                         </div>
                                     )}
                                 </Suspense>
