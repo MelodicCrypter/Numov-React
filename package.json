@@ -48,7 +48,7 @@
     "localforage": "^1.7.3",
     "moment": "^2.24.0",
     "ms": "^2.1.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-cool-img": "^1.0.24",
     "react-device-detect": "^1.11.14",
